@@ -1,6 +1,6 @@
 from numpy import argmin
 from ArrayBaseModel import ArrayModel
-import logging
+# import logging
 
 
 class Array(ArrayModel):
@@ -30,13 +30,14 @@ class Array(ArrayModel):
     
     def reverSort(self):
         # pass
-        Arr = self.vals[:]
+        
         for i in range(round(len(self.vals)-1)):
-            k=self.reverse(self.vals, i, i+1+ argmin(Arr[i:]))
+            self.setValues(self.reverse(self.vals, i, i+argmin(self.vals[i:])))
             
-            print(f"self.vals: {self.vals} \ni = {i}\nArr[i:]: {Arr[i :]}\nargmin(Arr[i:]): {argmin(Arr[i :])}\nreversed values: {k}\n\n\n")
-           
-            self.setValues(k)
+            # print(f"self.vals: {self.vals} \ni = {i}\nArr[i:]: {self.vals[i :]}\ni+argmin(Arr[i:]): {i+argmin(self.vals[i :])}\nreversed values: {self.}\n\n\n")
+    
+            # self.setValues(k)
+            # Arr = k.copy()
             
         return self.getValues()
             
@@ -46,12 +47,12 @@ class Array(ArrayModel):
 
 
 
-arr = Array([0,9,2,3,4,5,6,7,8,9,10])
+arr = Array([0,23,2,3,96,95, 95,93,92,4,5,6,7,44,20,10])
 # """Testing
-arrmine = [0, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+# arrmine = [0, 11, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
-print(arr.reverse(arrmine, index_low=1, index_high=10))
+# print(arr.reverse(arrmine, index_low=1, index_high=10))
 # should give [0,11,2,3,7,6,5,4,8,9,10] for 4, 7
-# print(arr.reverSort())
+print(arr.reverSort())
 
 # """
