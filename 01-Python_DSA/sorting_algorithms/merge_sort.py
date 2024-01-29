@@ -7,6 +7,13 @@ class Array(ArrayModel):
     
     
     def merge_sort(self):
+        '''
+        Merge Sort is (in my case) an time O(nlogn) and a space O(nlogn) algorithm to sort an array
+        
+        It works by dividing the array into subarrays(by splitting the middle) recursively until each element is in a subarray of length 1.
+        Then, it combines the subarrays recursively in pairs so that when combining the combined subarray is sorted.
+        Since there will be logn (base2) ± 1 and the total length of elements to be iterated over is at n, resultant complexity is nlogn
+        '''
         # pass
         Arr = self.vals[:]
 

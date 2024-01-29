@@ -37,18 +37,19 @@ class Array(ArrayModel):
     
     def rever_sort(self):
         '''
-        Revere Sort is an time O(n^2) and (in my case) a space O(n^2) algorithm to sort an array
+        Revere Sort is (in my case) an time O(n^2) and a space O(n^2) algorithm to sort an array
         
         It works by iterating i over elements from START to END.
         For every i, it checks if what the smallest element is from i to END.
         Next, it calls the reverse function of that subarray from i to minValue_i. ie, it flips the terms from i to minValue_i.
         This way minValue_i is now in its correct spot. 
-        Doing this for all elements, the array is ssorted, with each iteration sorting, at the very least, one element to its correct spot.
-        '''
+        Doing this for all elements, the array is sorted, with each iteration sorting, at the very least, one element to its correct spot.
+        ''' 
         sortedArr = self.vals[:]
         for i in range(round(len(sortedArr)-1)):
             sortedArr = (self.reverse(sortedArr, i, i+argmin(sortedArr[i:]))).copy()            
         return sortedArr
+         
             
 
 
