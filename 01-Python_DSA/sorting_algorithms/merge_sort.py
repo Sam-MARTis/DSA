@@ -6,11 +6,11 @@ class Array(ArrayModel):
         super().__init__(a)
     
     
-    def mergeSort(self):
+    def merge_sort(self):
         # pass
         Arr = self.vals[:]
 
-        def mergeUp(leftArr: list, rightArr: list):
+        def merge_up(leftArr: list, rightArr: list):
 
             i = 0
             k = 0
@@ -45,7 +45,7 @@ class Array(ArrayModel):
             if len(arrL)!=1 and len(arrR)!=1:
                 arrL = sort(arrL)
                 arrR = sort(arrR)
-            return mergeUp(arrL, arrR)
+            return merge_up(arrL, arrR)
             
         
         return sort(Arr)
@@ -58,10 +58,10 @@ class Array(ArrayModel):
 
 
 
-# """Testing
+#Testing. Uncomment/comment to see/hide examples
+arr = Array([0,0,23,2,3,96,95,95,93,92,4,5,6,7,44,20,10])
 
-a = Array([12,22,3,44,56, 16,37,28,99,])
-a.setValues(a.mergeSort())
-print(a.getValues())
-
+print(f'Unsorted values: {arr.get_values()}\n')
+arr.set_values(arr.merge_sort())
+print(f"Sorted values: {arr.get_values()}")
 # """

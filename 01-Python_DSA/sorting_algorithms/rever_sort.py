@@ -35,7 +35,7 @@ class Array(ArrayModel):
     
             
     
-    def reverSort(self):
+    def rever_sort(self):
         '''
         Revere Sort is an time O(n^2) and (in my case) a space O(n^2) algorithm to sort an array
         
@@ -45,9 +45,10 @@ class Array(ArrayModel):
         This way minValue_i is now in its correct spot. 
         Doing this for all elements, the array is ssorted, with each iteration sorting, at the very least, one element to its correct spot.
         '''
-        for i in range(round(len(self.vals)-1)):
-            self.setValues(self.reverse(self.vals, i, i+argmin(self.vals[i:])))            
-        return self.getValues()
+        sortedArr = self.vals[:]
+        for i in range(round(len(sortedArr)-1)):
+            sortedArr = (self.reverse(sortedArr, i, i+argmin(sortedArr[i:]))).copy()            
+        return sortedArr
             
 
 
@@ -57,7 +58,7 @@ class Array(ArrayModel):
 #Testing. Uncomment/comment to see/hide examples
 arr = Array([0,0,23,2,3,96,95,95,93,92,4,5,6,7,44,20,10])
 
-print(f'Unsorted values: {arr.getValues()}\n')
-arr.reverSort()
-print(f"Sorted values: {arr.getValues()}")
+print(f'Unsorted values: {arr.get_values()}\n')
+arr.set_values(arr.rever_sort())
+print(f"Sorted values: {arr.get_values()}")
 

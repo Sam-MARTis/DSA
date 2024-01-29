@@ -8,8 +8,8 @@ class ArrayModel:
         for i in a:
             self.vals.append(i)
 
-    def getValues(self) -> list:
+    def get_values(self) -> list:
         return self.vals
     
-    def setValues(self, vals):
+    def set_values(self, vals):
         self.vals = vals
