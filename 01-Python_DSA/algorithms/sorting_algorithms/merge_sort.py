@@ -1,7 +1,7 @@
 import sys
-sys.path.append('01-Python_DSA/algorithms')
-from ArrayBaseModel import ArrayModel
+sys.path.append('/home/samanth/Code/DSA/01-Python_DSA/algorithms')
 
+from ArrayBaseModel import ArrayModel
 
 class Array(ArrayModel):
     def __init__(self, a: list = []) -> None:

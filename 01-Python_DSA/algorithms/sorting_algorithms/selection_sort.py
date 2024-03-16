@@ -1,7 +1,6 @@
 import sys
-sys.path.append('01-Python_DSA/algorithms')
+sys.path.append('/home/samanth/Code/DSA/01-Python_DSA/algorithms')
 
-from numpy import argmin
 from ArrayBaseModel import ArrayModel
 
 
@@ -10,6 +9,13 @@ class Array(ArrayModel):
         super().__init__(a)
         
     def selection_sort(self):
+        """
+        Selection Sort is O(n^2) time complex and O(1) space complex
+        It compares the first element with all the elements in the array and swaps the first element with the smallest element.
+        Then moves on and compares the second element with all alements AFTER it and swaps. 
+        Every iteration, one element is sorted.
+        
+        """
         arr = self.vals[:]
         for i in range(len(arr)):
             minIndex = arr.index(min(arr[i:]))

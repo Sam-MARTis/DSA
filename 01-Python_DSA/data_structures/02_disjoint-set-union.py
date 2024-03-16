@@ -32,4 +32,4 @@ myDSU.make_set(3, 4, 3, 5)
 myDSU.mergse_sets(2, 3)
 myDSU.make_set(3, 4, 9)
 myDSU.mergse_sets(2, 3)
-print(myDSU.get_sets())
+print(myDSU.get_sets())wi

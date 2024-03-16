@@ -1,10 +1,10 @@
 import sys
-sys.path.append('01-Python_DSA/algorithms')
+sys.path.append('/home/samanth/Code/DSA/01-Python_DSA/algorithms')
+
+from ArrayBaseModel import ArrayModel
 
 
 from numpy import argmin
-from ArrayBaseModel import ArrayModel
-
 
 class Array(ArrayModel):
     def __init__(self, a: list = []) -> None:
