@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 
 class Node:
@@ -10,8 +10,15 @@ class Node:
     def addEdge(self, edgeToUse):
         self.edges.append(edgeToUse)
 
+    def getEdges(self) -> list:
+        return self.edges
+
     def getInfo(self):
         return (self.id, self.edges, self.state)
+    
+    def traverse(self, edge):
+        return edge.traverse(self)
+        
 
 
 class UndirectedEdge:
@@ -22,7 +29,7 @@ class UndirectedEdge:
         self.weight = weight
         self.state = state
 
-    def traverseFrom(self, currentNode: Node) -> tuple:
+    def traverse(self, currentNode: Node) -> Tuple[Node, int]:
         assert (
             currentNode in self.nodes
         ), "This undirected edge doesn't connect the current node"
@@ -68,6 +75,8 @@ class Graph:
             
         for node in nodesList:
             self.nodes[node.id] = node
+    def getNodes(self):
+        return self.nodes
 
     def makeDirectedEdge(self, fromNode: Node, toNode: Node, weight: int = 1) -> None:
         assert fromNode in self.nodes.values(), "FromNode is not in graph nodes!"
@@ -104,3 +113,8 @@ class Graph:
         edge = UndirectedEdge(node1, node2, weight)
         node1.addEdge(edge)
         node2.addEdge(edge)
+    def getID(self, nodeToFindIDOf: Node):
+        if nodeToFindIDOf.id in self.nodes.keys():
+            return nodeToFindIDOf.id
+        else:
+            return Warning("Node not in graph")
