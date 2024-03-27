@@ -7,6 +7,8 @@ class Edge:
     def __init__(self, weight: int = 1, state: dict = dict()) -> None:
         self.weight = weight
         self.state = state
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}({self.weight})"
 
 
 class Node:
@@ -66,6 +68,9 @@ class DirectedEdge(Edge):
         self.isAugmentedEdge = isAugmentedEdge
         # self.weight = weight
         # self.state = state
+
+    def __repr__(self) -> str:
+        return f"{self.fromNode.id} -{self.__class__.__name__}({self.weight})-> {self.toNode.id}"
 
     def traverse(self, currentNode: Node) -> tuple:
         assert (

@@ -7,6 +7,7 @@ def DFS(graph: Graph, startID, endID) -> bool:
     Nodes = graph.getNodes().copy()
     StartNode: Node = Nodes[startID]
     weight = 0
+    edgesTaken = []
 
     queueToExplore = [[startID, StartNode.getEdges()]]  # Node ID, unexplored edges
     while len(queueToExplore) > 0:
@@ -15,7 +16,7 @@ def DFS(graph: Graph, startID, endID) -> bool:
         currentNodeEdges = currentItem[1]
 
         if currentNode.id == endID:
-            return [[items[0] for items in queueToExplore], weight]
+            return [[items[0] for items in queueToExplore],[edge for edge in edgesTaken], weight]
 
         if currentNodeEdges == [] or currentNodeEdges == [[]]:
             queueToExplore.pop()
@@ -26,9 +27,11 @@ def DFS(graph: Graph, startID, endID) -> bool:
                 newNode.state["visited"] = True
                 queueToExplore.append([newNode.id, newNode.getEdges()])
                 weight+= edge.weight
+                edgesTaken.append(edge)
                 break
             else:
                 currentNodeEdges.remove(edge)
+                edgesTaken.remove(edge)
                 weight-= edge.weight
     else:
         return None
@@ -36,9 +39,10 @@ def DFS(graph: Graph, startID, endID) -> bool:
 
 if __name__ == "__main__":
     myGraph = Graph()
-    myGraph.addNodes([Node(i) for i in range(5)])
+    myGraph.addNodes([Node(i) for i in range(10)])
     myGraph.makeDirectedEdgeByID(1, 2)
     myGraph.makeDirectedEdgeByID(2, 3)
 
-    myGraph.makeDirectedEdgeByID(1, 4, 1)
-    print(DFS(myGraph, 1, 4))
+    myGraph.makeDirectedEdgeByID(1, 4, 3)
+    myGraph.makeDirectedEdgeByID(4, 7, 2)
+    print(DFS(myGraph, 1, 7))
