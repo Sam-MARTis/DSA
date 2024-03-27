@@ -2,7 +2,7 @@ import sys
 from typing import List
 
 sys.path.append("/home/samanth/Code/DSA/01-Python_DSA/")
-from data_structures.graph import Graph, Node
+from data_structures.Graph import Graph, Node
 
 graph = Graph()
 graph.addNodes(

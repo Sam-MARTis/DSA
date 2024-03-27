@@ -1,12 +1,18 @@
 from typing import List, Tuple
 from collections import deque
+from abc import ABC
 
+class Edge:
+    def __init__(self, weight: int = 1, state: dict = dict()) -> None:
+        self.weight = weight
+        self.state = state
+   
 
 class Node:
-    def __init__(self, id, state: dict = None) -> None:
+    def __init__(self, id, state: dict = {}) -> None:
         self.id = id
         self.edges = []
-        self.state = state
+        self.state = {"visited": False}
 
     def addEdge(self, edgeToUse):
         self.edges.append(edgeToUse)
@@ -19,15 +25,19 @@ class Node:
             if self.traverse(edge)[0] == node:
                 return edge
         return None
+    # @getattr
+    def getEdges(self):
+        return self.edges
 
 
-class UndirectedEdge:
+class UndirectedEdge(Edge):
     def __init__(
         self, node1: Node, node2: Node, weight: int = 1, state: dict = None
     ) -> None:
+        super().__init__(weight, state)
         self.nodes: List[Node] = [node1, node2]
-        self.weight = weight
-        self.state = state
+        # self.weight = weight
+        # self.state = state
 
     def traverse(self, currentNode: Node) -> Tuple[Node, int]:
         assert (
@@ -39,14 +49,15 @@ class UndirectedEdge:
         )
 
 
-class DirectedEdge:
+class DirectedEdge(Edge):
     def __init__(
         self, fromNode: Node, toNode: Node, weight: int = 1, state: dict = None
     ) -> None:
+        super().__init__(weight, state)
         self.fromNode: Node = fromNode
         self.toNode: Node = toNode
-        self.weight = weight
-        self.state = state
+        # self.weight = weight
+        # self.state = state
 
     def traverse(self, currentNode: Node) -> tuple:
         assert (
@@ -60,7 +71,12 @@ class Graph:
         self.nodes = {}
         self.source = None
         self.sink = None
-
+    
+    # @property
+    def getNodes(self):
+        return self.nodes
+    
+    
     def addNodes(self, nodesList: List[Node] = None):
         if nodesList is None:
             nodesList = []

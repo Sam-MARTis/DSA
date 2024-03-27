@@ -53,25 +53,26 @@ def dijkstra(adj_list, start_node):
 
     return distances
 
-repeatitions = int(input())
-for repeatition in range(repeatitions):
-    number_nodes, number_edges, max_fuel = map(int, input().split())
-    # max_fuel *= 60
-    nodeList = [Node(i) for i in range(number_nodes)]
-    graph = Graph(nodeList)
-    for _ in range(number_edges):
-        fromNode, toNode, weight = map(int, input().split())
-        graph.makeConnection(nodeList[fromNode], nodeList[toNode], weight)
-    min_people = float('inf')
-    min_people_person = 0
-    for i in range(number_nodes):
-        people_get = 0
-        distance_list = list(dijkstra(graph.getNodeValues(), i).values())
-        for distance in distance_list:
-            if distance <= max_fuel:
-                people_get +=1
-        if people_get <= min_people:
-            min_people = people_get
-            min_people_person = i
-    print(min_people_person, end="" if repeatition == repeatitions-1 else "\n")
-    graph.resetValues()
+if __name__ == "__main__":
+    repeatitions = int(input())
+    for repeatition in range(repeatitions):
+        number_nodes, number_edges, max_fuel = map(int, input().split())
+        # max_fuel *= 60
+        nodeList = [Node(i) for i in range(number_nodes)]
+        graph = Graph(nodeList)
+        for _ in range(number_edges):
+            fromNode, toNode, weight = map(int, input().split())
+            graph.makeConnection(nodeList[fromNode], nodeList[toNode], weight)
+        min_people = float('inf')
+        min_people_person = 0
+        for i in range(number_nodes):
+            people_get = 0
+            distance_list = list(dijkstra(graph.getNodeValues(), i).values())
+            for distance in distance_list:
+                if distance <= max_fuel:
+                    people_get +=1
+            if people_get <= min_people:
+                min_people = people_get
+                min_people_person = i
+        print(min_people_person, end="" if repeatition == repeatitions-1 else "\n")
+        graph.resetValues()
