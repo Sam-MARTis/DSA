@@ -4,11 +4,12 @@ from abc import ABC
 
 
 class Edge:
-    def __init__(self, weight: int = 1, state: dict = dict()) -> None:
-        self.weight = weight
+    def __init__(self, capacity: int = 1, state: dict = dict()) -> None:
+        self.capacity = capacity
         self.state = state
+
     def __repr__(self) -> str:
-        return f"{self.__class__.__name__}({self.weight})"
+        return f"{self.__class__.__name__}({self.capacity})"
 
 
 class Node:
@@ -36,11 +37,11 @@ class Node:
 
 class UndirectedEdge(Edge):
     def __init__(
-        self, node1: Node, node2: Node, weight: int = 1, state: dict = None
+        self, node1: Node, node2: Node, capacity: int = 1, state: dict = None
     ) -> None:
-        super().__init__(weight, state)
+        super().__init__(capacity, state)
         self.nodes: List[Node] = [node1, node2]
-        # self.weight = weight
+        # self.capacity = capacity
         # self.state = state
 
     def traverse(self, currentNode: Node) -> Tuple[Node, int]:
@@ -49,7 +50,7 @@ class UndirectedEdge(Edge):
         ), "This undirected edge doesn't connect the current node"
         return (
             self.nodes[1] if self.nodes[0] == currentNode else self.nodes[0],
-            self.weight,
+            self.capacity,
         )
 
 
@@ -58,25 +59,25 @@ class DirectedEdge(Edge):
         self,
         fromNode: Node,
         toNode: Node,
-        weight: int = 1,
+        capacity: int = 1,
         isAugmentedEdge: bool = False,
         state: dict = None,
     ) -> None:
-        super().__init__(weight, state)
+        super().__init__(capacity, state)
         self.fromNode: Node = fromNode
         self.toNode: Node = toNode
         self.isAugmentedEdge = isAugmentedEdge
-        # self.weight = weight
+        # self.capacity = capacity
         # self.state = state
 
     def __repr__(self) -> str:
-        return f"{self.fromNode.id} -{self.__class__.__name__}({self.weight})-> {self.toNode.id}"
+        return f"{self.fromNode.id} -{self.__class__.__name__}({self.capacity})-> {self.toNode.id}"
 
     def traverse(self, currentNode: Node) -> tuple:
         assert (
             currentNode == self.fromNode
         ), "This directed edge doesn't start from the current node"
-        return (self.toNode, self.weight)
+        return (self.toNode, self.capacity)
 
 
 class Graph:
@@ -96,95 +97,40 @@ class Graph:
         for node in nodesList:
             self.nodes[node.id] = node
 
-    def makeDirectedEdge(self, fromNode: Node, toNode: Node, weight: int = 1) -> None:
-        edge = DirectedEdge(fromNode, toNode, weight)
+    def makeDirectedEdge(self, fromNode: Node, toNode: Node, capacity: int = 1) -> None:
+        edge = DirectedEdge(fromNode, toNode, capacity)
         fromNode.addEdge(edge)
 
-    def makeUndirectedEdge(self, node1: Node, node2: Node, weight: int = 1) -> None:
-        edge = UndirectedEdge(node1, node2, weight)
+    def makeUndirectedEdge(self, node1: Node, node2: Node, capacity: int = 1) -> None:
+        edge = UndirectedEdge(node1, node2, capacity)
         node1.addEdge(edge)
         node2.addEdge(edge)
 
     def makeDirectedEdgeByID(
-        self, fromNodeID, toNodeID, weight: int = 1, isAugmentedEdge: bool = False
+        self, fromNodeID, toNodeID, capacity: int = 1, isAugmentedEdge: bool = False
     ) -> None:
         fromNode: Node = self.nodes[fromNodeID]
         toNode: Node = self.nodes[toNodeID]
 
-        edge = DirectedEdge(fromNode, toNode, weight, isAugmentedEdge=isAugmentedEdge)
+        edge = DirectedEdge(fromNode, toNode, capacity, isAugmentedEdge=isAugmentedEdge)
         fromNode.addEdge(edge)
 
     def makeUndirectedEdgeByID(
-        self, Node1ID, Node2ID, weight: int = 1, isAugmentedEdge: bool = False
+        self, Node1ID, Node2ID, capacity: int = 1, isAugmentedEdge: bool = False
     ) -> None:
         node1: Node = self.nodes[Node1ID]
         node2: Node = self.nodes[Node2ID]
 
-        edge = UndirectedEdge(node1, node2, weight, isAugmentedEdge=isAugmentedEdge)
+        edge = UndirectedEdge(node1, node2, capacity, isAugmentedEdge=isAugmentedEdge)
         node1.addEdge(edge)
         node2.addEdge(edge)
 
+    def augmentedPathPairByID(self, fromNodeID, toNodeID, capacity: int) -> None:
+        fromNode: Node = self.nodes[fromNodeID]
+        toNode: Node = self.nodes[toNodeID]
+        edgeNormal = DirectedEdge(fromNode, toNode, capacity, isAugmentedEdge=False)
+        edgeAugmented = DirectedEdge(toNode, fromNode, 0, isAugmentedEdge=True)
+        max_capacity = capacity
+        fromNode.addEdge([edgeNormal, edgeAugmented, max_capacity])
+        toNode.addEdge([edgeAugmented, edgeNormal, max_capacity])
 
-# class FordFulkerson:
-#     def __init__(self, graph: Graph, source: Node, sink: Node):
-#         self.graph = graph
-#         self.source = source
-#         self.sink = sink
-#         self.max_flow = 0
-
-#     def has_augmenting_path(self, parent_map):
-#         visited = {node: False for node in self.graph.nodes.values()}
-#         queue = deque([self.source])
-#         visited[self.source] = True
-
-#         while queue:
-#             current_node = queue.popleft()
-
-#             for edge in current_node.edges:
-#                 residual_node, capacity = current_node.traverse(edge)
-
-#                 if not visited[residual_node] and capacity > 0:
-#                     parent_map[residual_node] = (current_node, edge)
-#                     if residual_node == self.sink:
-#                         return True
-
-#                     queue.append(residual_node)
-#                     visited[residual_node] = True
-
-#         return False
-
-#     def compute_max_flow(self):
-#         parent_map = {}
-#         paths = []  # List to store the nodes in each augmenting path
-
-#         while self.has_augmenting_path(parent_map):
-#             path_flow = float("Inf")
-#             s = self.sink
-#             path_nodes = []  # List to store the nodes in the current augmenting path
-
-#             while s != self.source:
-#                 node, edge = parent_map[s]
-#                 _, capacity = node.traverse(edge)
-#                 path_flow = min(path_flow, capacity)
-#                 path_nodes.append(node)  # Add the node to the current path
-#                 s = node
-
-#             path_nodes.append(self.source)  # Add the source to the current path
-#             paths.append(path_nodes)  # Add the current path to the paths list
-
-#             self.max_flow += path_flow
-
-#             v = self.sink
-#             while v != self.source:
-#                 node, edge = parent_map[v]
-#                 _, capacity = node.traverse(edge)
-#                 if isinstance(edge, DirectedEdge):
-#                     edge.weight -= path_flow
-#                 else:
-#                     if edge.nodes[0] == node:
-#                         edge.weight -= path_flow
-#                     else:
-#                         edge.weight += path_flow
-#                 v = node
-
-#         return self.max_flow, paths

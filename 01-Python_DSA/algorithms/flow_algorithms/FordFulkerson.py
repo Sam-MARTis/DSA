@@ -1,4 +1,5 @@
 import sys
+
 sys.path.append("/home/samanth/Code/DSA/01-Python_DSA/")
 from data_structures.Graph import Graph, Node
 
@@ -16,7 +17,11 @@ def DFS(graph: Graph, startID, endID) -> bool:
         currentNodeEdges = currentItem[1]
 
         if currentNode.id == endID:
-            return [[items[0] for items in queueToExplore],[edge for edge in edgesTaken], weight]
+            return [
+                [items[0] for items in queueToExplore],
+                [edge for edge in edgesTaken],
+                weight,
+            ]
 
         if currentNodeEdges == [] or currentNodeEdges == [[]]:
             queueToExplore.pop()
@@ -26,13 +31,13 @@ def DFS(graph: Graph, startID, endID) -> bool:
             if newNode.state["visited"] == False:
                 newNode.state["visited"] = True
                 queueToExplore.append([newNode.id, newNode.getEdges()])
-                weight+= edge.weight
+                weight += edge.capacity
                 edgesTaken.append(edge)
                 break
             else:
                 currentNodeEdges.remove(edge)
                 edgesTaken.remove(edge)
-                weight-= edge.weight
+                weight -= edge.capacity
     else:
         return None
 
