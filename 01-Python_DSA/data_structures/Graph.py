@@ -2,11 +2,12 @@ from typing import List, Tuple
 from collections import deque
 from abc import ABC
 
+
 class Edge:
     def __init__(self, weight: int = 1, state: dict = dict()) -> None:
         self.weight = weight
         self.state = state
-   
+
 
 class Node:
     def __init__(self, id, state: dict = {}) -> None:
@@ -25,6 +26,7 @@ class Node:
             if self.traverse(edge)[0] == node:
                 return edge
         return None
+
     # @getattr
     def getEdges(self):
         return self.edges
@@ -51,11 +53,17 @@ class UndirectedEdge(Edge):
 
 class DirectedEdge(Edge):
     def __init__(
-        self, fromNode: Node, toNode: Node, weight: int = 1, state: dict = None
+        self,
+        fromNode: Node,
+        toNode: Node,
+        weight: int = 1,
+        isAugmentedEdge: bool = False,
+        state: dict = None,
     ) -> None:
         super().__init__(weight, state)
         self.fromNode: Node = fromNode
         self.toNode: Node = toNode
+        self.isAugmentedEdge = isAugmentedEdge
         # self.weight = weight
         # self.state = state
 
@@ -71,12 +79,11 @@ class Graph:
         self.nodes = {}
         self.source = None
         self.sink = None
-    
+
     # @property
     def getNodes(self):
         return self.nodes
-    
-    
+
     def addNodes(self, nodesList: List[Node] = None):
         if nodesList is None:
             nodesList = []
@@ -93,18 +100,22 @@ class Graph:
         node1.addEdge(edge)
         node2.addEdge(edge)
 
-    def makeDirectedEdgeByID(self, fromNodeID, toNodeID, weight: int = 1) -> None:
+    def makeDirectedEdgeByID(
+        self, fromNodeID, toNodeID, weight: int = 1, isAugmentedEdge: bool = False
+    ) -> None:
         fromNode: Node = self.nodes[fromNodeID]
         toNode: Node = self.nodes[toNodeID]
 
-        edge = DirectedEdge(fromNode, toNode, weight)
+        edge = DirectedEdge(fromNode, toNode, weight, isAugmentedEdge=isAugmentedEdge)
         fromNode.addEdge(edge)
 
-    def makeUndirectedEdgeByID(self, Node1ID, Node2ID, weight: int = 1) -> None:
+    def makeUndirectedEdgeByID(
+        self, Node1ID, Node2ID, weight: int = 1, isAugmentedEdge: bool = False
+    ) -> None:
         node1: Node = self.nodes[Node1ID]
         node2: Node = self.nodes[Node2ID]
 
-        edge = UndirectedEdge(node1, node2, weight)
+        edge = UndirectedEdge(node1, node2, weight, isAugmentedEdge=isAugmentedEdge)
         node1.addEdge(edge)
         node2.addEdge(edge)
 
@@ -172,6 +183,3 @@ class Graph:
 #                 v = node
 
 #         return self.max_flow, paths
-
-
-
