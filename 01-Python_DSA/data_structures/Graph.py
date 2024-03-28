@@ -33,6 +33,9 @@ class Node:
     # @getattr
     def getEdges(self) -> list:
         return self.edges
+    
+    def __repr__(self) -> str:
+        return f"Node({self.id})"
 
 
 class UndirectedEdge(Edge):
@@ -88,6 +91,9 @@ class DirectedEdge(Edge):
             currentNode == self.fromNode
         ), "This directed edge doesn't start from the current node"
         return (self.toNode, self.capacity)
+
+    def __repr__(self) -> str:
+        return f"{self.fromNode.id} -{self.__class__.__name__}({self.capacity})-> {self.toNode.id}"
 
 
 class Graph:
