@@ -93,7 +93,7 @@ class DirectedEdge(Edge):
         return (self.toNode, self.capacity)
 
     def __repr__(self) -> str:
-        return f"{self.fromNode.id} -{self.__class__.__name__}({self.capacity})-> {self.toNode.id}"
+        return f"{self.fromNode.id} -{self.__class__.__name__}({self.capacity}/{self.maxCapacity})-> {self.toNode.id}"
 
 
 class Graph:
